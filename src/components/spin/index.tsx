@@ -12,7 +12,7 @@ type Props = {
 const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
   const [rotating, setRotating] = useState<number>(0)
   const [step, setStep] = useState<number>(1)
-  const [showModal, SetShowModal] = useState<boolean>(false)
+  // const [showModal, SetShowModal] = useState<boolean>(false)
   const addingStep = 0.04
   const decreaseRate = 0.993
   const initialDistance = 2880
