@@ -8,4 +8,4 @@ import Buttons from './buttons'
 import SpinWheel from './spin'
 import MarkPanel from './markpanel'
 
-export { LuckyWheel, Modal, WinningResult, ListPrizeWon, Banner,Buttons,SpinWheel }
+export { LuckyWheel, Modal, WinningResult, ListPrizeWon, Banner, Buttons, SpinWheel, MarkPanel }

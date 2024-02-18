@@ -48,7 +48,6 @@ const LuckyWheel = ({ id, styleRotate, prizes, spinning, timeNeedleRotate }: Pro
   const drawWheel = (prizes: { name: string; img: string; percentpage: number }[]) => {
     const num = prizes.length
     const rotateDeg = 360 / num / 2 + 90
-    const turnNum = 1 / num
     const html = []
 
     const ele = document.getElementById(id)
@@ -61,7 +60,6 @@ const LuckyWheel = ({ id, styleRotate, prizes, spinning, timeNeedleRotate }: Pro
     if (ele) {
       const prizeItems = document.createElement('ul')
       const container = ele.querySelector('.luckywheel-container')
-      const prizeList = [...prizes]
 
       if (canvasRef.current && container) {
         const ctx = canvasRef.current.getContext('2d')!
