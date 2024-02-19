@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import './App.css'
 import { Banner, Buttons, SpinWheel, MarkPanel } from '@/components'
 import { Data } from '@/data/constant'
+import { Background } from '@/assets'
 
 const App: React.FC = () => {
   const [running, setRunning] = useState<boolean>(false)
@@ -18,7 +19,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className='relative flex flex-col justify-center items-center bg-[url("./src/assets/background.png")] bg-cover bg-bottom overflow-hidden'>
+    <div className={`relative flex flex-col justify-center items-center bg-cover bg-bottom overflow-hidden`} style={{backgroundImage: `url(${Background})`}}>
       <Banner />
       <Buttons handleDeposit={handleDeposit} handleClaim={handleClaim} />
       <SpinWheel data={Data} running={running} setRunning={setRunning} angle={angle} setAngle={setAngle} />

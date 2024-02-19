@@ -10,5 +10,6 @@ import Fire from './fire.png'
 import Arrow from './arrow.png'
 import Up from './up.png'
 import Down from './down.png'
+import Background from './background.png'
 
-export { Daggers, Ruby, Solana, Deposit, Claim, Spin, Symbol, MarkBoard, Fire, Arrow, Up, Down }
+export { Daggers, Ruby, Solana, Deposit, Claim, Spin, Symbol, MarkBoard, Fire, Arrow, Up, Down, Background }
