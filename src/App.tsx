@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 // import React, { useEffect, useState } from 'react'
 import './App.css'
-import { Banner, Buttons, SpinWheel } from '@/components'
+import { Banner, Buttons, SpinWheel, MarkPanel } from '@/components'
 import { Data } from '@/data/constant'
-import Markpanel from './components/markpanel'
 
 const App: React.FC = () => {
   const [running, setRunning] = useState<boolean>(false)
@@ -23,7 +22,7 @@ const App: React.FC = () => {
       <Banner />
       <Buttons handleDeposit={handleDeposit} handleClaim={handleClaim} />
       <SpinWheel data={Data} running={running} setRunning={setRunning} angle={angle} setAngle={setAngle} />
-      <Markpanel multi={multi} setMulti={setMulti} />
+      <MarkPanel multi={multi} setMulti={setMulti} />
     </div>
   )
 }
