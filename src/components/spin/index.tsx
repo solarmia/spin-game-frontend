@@ -1,4 +1,4 @@
-import { Spin, Symbol } from '@/assets'
+import { Arrow, Spin, Symbol } from '@/assets'
 import { SetStateAction, memo, useEffect, useState } from 'react'
 
 type Props = {
@@ -68,11 +68,12 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
           const numberStyle = {
             transform: `rotate(${index * (-45)}deg)`
           };
-          return <span className={`absolute text-[3vh] w-[100px] text-center h-[calc(40%)] text-white`} style={numberStyle}>{value.name}</span>
+          return <span className={`absolute text-[3vh] w-[100px] text-center h-[calc(35%)] text-white`} style={numberStyle}>{value.name}</span>
         })}
         {/* {running ? <span className='absolute'>running</span> : <span className='absolute' onClick={() => startRotate()}>not running</span>} */}
       </div>
       <img src={Symbol} className='absolute w-[30%]' onClick={() => startRotate()} />
+      <img src={Arrow} className='absolute h-[24%] top-[10%]'/>
     </div>
   )
 }
