@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 // import React, { useEffect, useState } from 'react'
 import './App.css'
-import { Banner, Buttons, SpinWheel, MarkPanel } from '@/components'
+import { Banner, Buttons, SpinWheel, MarkPanel, WalletContextProvider } from '@/components'
+
 import { Data } from '@/data/constant'
 import { Background } from '@/assets'
 
@@ -19,12 +20,14 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className={`relative flex flex-col justify-center items-center bg-cover bg-bottom overflow-hidden`} style={{backgroundImage: `url(${Background})`}}>
-      <Banner />
-      <Buttons handleDeposit={handleDeposit} handleClaim={handleClaim} />
-      <SpinWheel data={Data} running={running} setRunning={setRunning} angle={angle} setAngle={setAngle} />
-      <MarkPanel multi={multi} setMulti={setMulti} />
-    </div>
+    <WalletContextProvider>
+      <div className={`relative flex flex-col justify-center items-center bg-cover bg-bottom overflow-hidden`} style={{ backgroundImage: `url(${Background})` }}>
+        <Banner />
+        <Buttons handleDeposit={handleDeposit} handleClaim={handleClaim} />
+        <SpinWheel data={Data} running={running} setRunning={setRunning} angle={angle} setAngle={setAngle} />
+        <MarkPanel multi={multi} setMulti={setMulti} />
+      </div>
+    </WalletContextProvider>
   )
 }
 

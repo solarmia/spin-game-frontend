@@ -61,7 +61,7 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
   }, [rotating, running])
 
   return (
-    <div className='relative justify-center items-center flex'>
+    <div className='relative flex items-center justify-center'>
       <div className={`h-[100vh] justify-center items-center flex relative`} style={{ rotate: `${rotating}deg` }}>
         <img src={Spin} className='h-[50%]' />
         {data.map((value, index) => {
@@ -74,6 +74,7 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
       </div>
       <img src={Symbol} className='absolute w-[30%]' onClick={() => startRotate()} />
       <img src={Arrow} className='absolute h-[24%] top-[10%]'/>
+      {/* <img src={Arrow} className='absolute h-[10%] top-[23%]'/> */}
     </div>
   )
 }
