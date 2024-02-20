@@ -1,19 +1,19 @@
 import { memo } from 'react'
 
-import { Claim, Deposit } from '@/assets'
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
+import { Deposit } from '@/assets'
+// import { Claim, Deposit } from '@/assets'
 
 type Props = {
-    handleDeposit: () => boolean,
-    handleClaim: () => boolean
+    handleDeposit: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const Buttons = ({ handleDeposit, handleClaim }: Props) => {
+const Buttons = ({ handleDeposit }: Props) => {
     return (
-        <div className='absolute flex items-center justify-center top-[10px] right-[50px] z-[10]'>
-            <img src={Deposit} className='w-[150px] h-[150px] cursor-pointer' onClick={() => handleDeposit} />
-            <img src={Claim} className='w-[150px] h-[150px] cursor-pointer' onClick={() => handleClaim} />
-            < WalletMultiButton />
+        <div className={`absolute flex items-center justify-center gap-[10vh] left-[calc(50vw_+_25vh_+_30px)] z-[10] h-[100vh] `}>
+            <img src={Deposit} className='cursor-pointer h-[50%]' onClick={() => {
+                handleDeposit(true)
+            }} />
+            {/* <img src={Claim} className='cursor-pointer  h-[30%]' onClick={() => handleClaim} /> */}
         </div>
     )
 }

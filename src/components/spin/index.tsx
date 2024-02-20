@@ -15,8 +15,8 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
   // const [showModal, SetShowModal] = useState<boolean>(false)
   const addingStep = 0.04
   const decreaseRate = 0.993
-  const initialDistance = 2880
-  const lastDistance = 2170
+  const initialDistance = 4000
+  const lastDistance = 2550
 
   // Start spin wheel
   const startRotate = () => {
@@ -34,7 +34,7 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
 
   useEffect(() => {
     setRunning(false)
-    setAngle(9720) // 9720 ~ 10080
+    setAngle(13320) // 12960 ~ 13320 
   }, [])
 
   // Rotating effect

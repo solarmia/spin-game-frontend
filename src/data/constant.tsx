@@ -40,3 +40,5 @@ export const Data = [
     percentpage: 0.25 // 60%
   },
 ]
+
+export const baseUrl = import.meta.env.VITE_SOME_KEY
