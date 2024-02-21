@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 // import React, { useEffect, useState } from 'react'
 import './App.css'
 import { Banner, Buttons, SpinWheel, MarkPanel, WalletContextProvider, DepositModal } from '@/components'
-import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
 import { Data } from '@/data/constant'
 import { Background } from '@/assets'
@@ -11,20 +10,19 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 const App: React.FC = () => {
   const [running, setRunning] = useState<boolean>(false)
   const [angle, setAngle] = useState<number | undefined>(20000)
-  const [multi, setMulti] = useState<number>(1)
   const [depositAmount, SetDepositAmount] = useState<number>(0)
   const [lockAmount, setLockAmount] = useState<undefined | number>(undefined)
   const [depositModalOpen, setDepositModalOpen] = useState<boolean>(false)
-  
-  const handleDeposit = (): boolean => {
-    console.log('model oepn')
-    setDepositModalOpen(true)
-    return true
-  }
 
-  const handleClaim = (): boolean => {
-    return true
-  }
+  // const handleDeposit = (): boolean => {
+  //   console.log('model oepn')
+  //   setDepositModalOpen(true)
+  //   return true
+  // }
+
+  // const handleClaim = (): boolean => {
+  //   return true
+  // }
 
   return (
     <WalletContextProvider>
@@ -50,7 +48,7 @@ const App: React.FC = () => {
             setAngle={setAngle}
             lockAmount={lockAmount}
           />
-          <MarkPanel multi={multi} setMulti={setMulti} lockAmount={lockAmount} />
+          <MarkPanel lockAmount={lockAmount} />
         </div>
       </div>
 

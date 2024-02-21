@@ -1,6 +1,6 @@
 import { Arrow, Spin, Symbol } from '@/assets'
 import * as service from '@/service'
-import { useConnection, useWallet } from '@solana/wallet-adapter-react'
+import { useWallet } from '@solana/wallet-adapter-react'
 import { SetStateAction, memo, useEffect, useState } from 'react'
 
 type Props = {
@@ -16,7 +16,6 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle, lockAmount }: P
   const [rotating, setRotating] = useState<number>(0)
   const [step, setStep] = useState<number>(1)
   const wallet = useWallet();
-  const { connection } = useConnection();
   // const [showModal, SetShowModal] = useState<boolean>(false)
   const addingStep = 0.04
   const decreaseRate = 0.993

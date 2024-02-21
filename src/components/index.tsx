@@ -1,7 +1,3 @@
-// import LuckyWheel from './lucky-wheel'
-// import Modal from './modal'
-// import WinningResult from './winning-result'
-
 import Banner from './banner'
 import Buttons from './buttons'
 import SpinWheel from './spin'

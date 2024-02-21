@@ -1,11 +1,11 @@
-import { useEffect, useState, useSyncExternalStore } from 'react'
+import { useEffect, useState } from 'react'
 
 import './style.css'
 import { Ruby } from '@/assets'
 import * as service from '@/service'
-import { WalletContextState, useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { depositToken, getTokenBalance, sendSolToUser } from '@/utils/token'
-import { Connection, PublicKey } from '@solana/web3.js'
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
+import { depositToken, getTokenBalance } from '@/utils/token'
+import { PublicKey } from '@solana/web3.js'
 // import { depositFee } from '@/data/constant'
 import { DNA } from 'react-loader-spinner';
 
@@ -27,6 +27,7 @@ export const DepositModal = ({ depositAmount, SetDepositAmount, depositModalOpen
   const [balance, setBalance] = useState<number | undefined>(0)
 
   const modalClose = async () => {
+    console.log(lockAmount)
     setDepositModalOpen(false)
     SetDepositAmount(0)
   }
