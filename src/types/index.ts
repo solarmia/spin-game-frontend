@@ -3,3 +3,8 @@ export type depositProps = {
   amount: number,
   tx: string
 }
+
+export type gameProps = {
+  address: string,
+  prize: Array<any>
+}

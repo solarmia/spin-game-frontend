@@ -1,4 +1,6 @@
 import { Arrow, Spin, Symbol } from '@/assets'
+import * as service from '@/service'
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { SetStateAction, memo, useEffect, useState } from 'react'
 
 type Props = {
@@ -7,11 +9,14 @@ type Props = {
   setRunning: React.Dispatch<React.SetStateAction<boolean>>,
   angle: number | undefined
   setAngle: React.Dispatch<SetStateAction<number | undefined>>,
+  lockAmount: number | undefined
 }
 
-const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
+const SpinWheel = ({ data, running, setRunning, angle, setAngle, lockAmount }: Props) => {
   const [rotating, setRotating] = useState<number>(0)
   const [step, setStep] = useState<number>(1)
+  const wallet = useWallet();
+  const { connection } = useConnection();
   // const [showModal, SetShowModal] = useState<boolean>(false)
   const addingStep = 0.04
   const decreaseRate = 0.993
@@ -19,8 +24,14 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
   const lastDistance = 2550
 
   // Start spin wheel
-  const startRotate = () => {
-    if (angle) setRunning(true)
+  const startRotate = async () => {
+    if (wallet.publicKey) {
+      const res = await service.play({ address: wallet.publicKey?.toString(), prize: data })
+      setAngle(res.data.angle)
+      if (angle && lockAmount) {
+        setRunning(true)
+      }
+    }
   }
 
   // Calculate result
@@ -34,7 +45,7 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
 
   useEffect(() => {
     setRunning(false)
-    setAngle(13320) // 12960 ~ 13320 
+     // 12960 ~ 13320 
   }, [])
 
   // Rotating effect
@@ -61,17 +72,18 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
 
   return (
     <div className='relative flex items-center justify-center'>
-      <div className={`h-[100vh] justify-center items-center flex relative`} style={{ rotate: `${rotating}deg` }}>
-        <img src={Spin} className='h-[50%]' />
+      <div className={`h-[100vh] justify-center items-center flex relative z-40`} style={{ rotate: `${rotating}deg` }}>
+        <img src={Spin} className='h-[50%] ' />
         {data.map((value, index) => {
           const numberStyle = {
             transform: `rotate(${index * (-45)}deg)`
           };
-          return <span className={`absolute text-[3vh] w-[100px] text-center h-[calc(35%)] text-white`} style={numberStyle}>{value.name}</span>
+          return <span className={`absolute text-[3vh] w-[100px] text-center h-[calc(35%)] text-white z-50`} style={numberStyle}>{value.name}</span>
         })}
       </div>
-      <img src={Symbol} className={`absolute w-[30%] ${running ? 'animate-play' : 'animate-ready'} cursor-pointer rounded-[50%]`} onClick={() => startRotate()} />
-      <img src={Arrow} className={`absolute h-[24%] top-[10%]`} />
+      <img src={Symbol} className={`absolute w-[30%] ${running && lockAmount ? 'animate-play ' : !running && lockAmount ? 'animate-ready cursor-pointer' : ''}  rounded-[50%] z-50`} onClick={() => startRotate()} />
+      {running ? <div className='absolute backdrop-blur-md w-[100vw] h-[100vh] z-30 ' /> : <></>}
+      <img src={Arrow} className={`absolute h-[24%] top-[10%] z-50`} />
       {/* <img src={Arrow} className='absolute h-[10%] top-[23%]'/> */}
     </div>
   )
