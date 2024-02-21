@@ -1,4 +1,5 @@
 export type depositProps = {
   address: string,
-  amount: number
+  amount: number,
+  tx: string
 }

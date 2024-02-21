@@ -4,8 +4,8 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 export const WalletButton: FC = () => {
     return (
-        <div className='' >
-            < WalletMultiButton />
+        <div className="bg-[red]" >
+            < WalletMultiButton className=""/>
         </div>
     );
 };

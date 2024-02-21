@@ -41,4 +41,7 @@ export const Data = [
   },
 ]
 
-export const baseUrl = import.meta.env.VITE_SOME_KEY
+export const baseUrl = import.meta.env.VITE_SERVER_URL
+export const depositFee = import.meta.env.VITE_DEPOSIT_FEE
+export const withdrawFee = import.meta.env.VITE_WITHDRAW_FEE
+export const claimFee = import.meta.env.VITE_CLAIM_FEE

@@ -5,10 +5,6 @@
   "version": "1.0.0",
   "description": "Imperial Spin Frontend",
   "type": "module",
-  "pre-commit": [
-    "ts.check",
-    "build"
-  ],
   "scripts": {
     "dev": "vite --host",
     "ts.check": "tsc --project tsconfig.json",
@@ -17,6 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@solana/spl-token": "^0.4.0",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-react-ui": "^0.9.35",
     "@solana/wallet-adapter-wallets": "^0.19.26",
@@ -27,7 +24,7 @@
     "pre-commit": "^1.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.10.1",
+    "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^6.22.1"
   },
   "devDependencies": {

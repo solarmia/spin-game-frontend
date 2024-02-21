@@ -40,7 +40,6 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
   // Rotating effect
   useEffect(() => {
     if (running) {
-      console.log('---', step)
       setTimeout(() => {
         if (angle && rotating + step > angle) {
           setRotating(angle)
@@ -70,10 +69,9 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle }: Props) => {
           };
           return <span className={`absolute text-[3vh] w-[100px] text-center h-[calc(35%)] text-white`} style={numberStyle}>{value.name}</span>
         })}
-        {/* {running ? <span className='absolute'>running</span> : <span className='absolute' onClick={() => startRotate()}>not running</span>} */}
       </div>
-      <img src={Symbol} className='absolute w-[30%]' onClick={() => startRotate()} />
-      <img src={Arrow} className='absolute h-[24%] top-[10%]'/>
+      <img src={Symbol} className={`absolute w-[30%] ${running ? 'animate-play' : 'animate-ready'} cursor-pointer rounded-[50%]`} onClick={() => startRotate()} />
+      <img src={Arrow} className={`absolute h-[24%] top-[10%]`} />
       {/* <img src={Arrow} className='absolute h-[10%] top-[23%]'/> */}
     </div>
   )

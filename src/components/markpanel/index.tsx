@@ -1,13 +1,14 @@
 import { memo } from 'react'
 
-import { MarkBoard, Fire, Up, Down } from '@/assets'
+import { MarkBoard, Fire, Up, Down, LetterSpin } from '@/assets'
 
 type Props = {
     multi: number,
     setMulti: React.Dispatch<React.SetStateAction<number>>,
+    lockAmount: number | undefined
 }
 
-const MarkPanel = ({ multi, setMulti }: Props) => {
+const MarkPanel = ({ multi, setMulti, lockAmount }: Props) => {
     const handleUp = () => {
         setMulti(multi + 1)
     }
@@ -19,10 +20,15 @@ const MarkPanel = ({ multi, setMulti }: Props) => {
     return (
         <div className='absolute bottom-0 justify-center h-[25vh]'>
             <img src={MarkBoard} className='h-[100%]' />
-            <img src={Fire} className='absolute h-[40%] top-[0%] right-[10%]' />
-            <img src={Up} onClick={handleUp} className='absolute  h-[21%] bottom-[30%] right-[20%]' />
-            <img src={Down} onClick={handleDown} className='absolute  h-[21%] bottom-[5%] right-[20%]' />
-            <p className='absolute bottom-0 left-[47%] text-[3vh] text-white'>{multi}</p>
+            {lockAmount ?
+                <span className='absolute h-[40%] top-[5%] text-center w-[100%] text-[30px]'>{lockAmount}</span>
+                :
+                <img src={LetterSpin} className='absolute h-[40%] top-[5%] right-[20%]' />
+            }
+            <img src={Fire} className={lockAmount ?
+                'absolute h-[40%] top-[0%] right-[-5%] animate-fire'
+                :
+                'absolute h-[40%] top-[0%] right-[-5%]'} />
         </div>
     )
 }

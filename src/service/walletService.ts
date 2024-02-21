@@ -1,7 +1,6 @@
 import { Data } from '@/data/constant'
 import { depositProps } from '@/types';
 import api from "@/utils/api";
-import axios from 'axios'
 
 function callApi(): Promise<number> {
   return new Promise((resolve) => {
@@ -21,7 +20,7 @@ export async function delayedApiCall() {
   }
 }
 
-export const depositApi = async (data: depositProps) => {
+export const deposit = async (data: depositProps) => {
   try {
     const res = await api.post('/wallet/deposit', data)
     if (res.status === 200) {
@@ -31,4 +30,8 @@ export const depositApi = async (data: depositProps) => {
     console.warn(e)
     throw (e)
   }
+}
+
+export const walletService = {
+  deposit
 }

@@ -1,9 +1,10 @@
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import { baseUrl } from "@/data/constant";
 
 // Create an instance of axios
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_SERVER_URL}/api`,
+  baseURL: `${baseUrl}/api`,
   headers: {
     "Content-Type": "application/json",
   },

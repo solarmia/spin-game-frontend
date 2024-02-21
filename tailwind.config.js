@@ -11,6 +11,11 @@ export default {
           from: { transform: 'rotate(0deg)' },
           to: { transform: 'rotate(360deg)' }
         }
+      },
+      animation: {
+        ready: 'ready 1s infinite',
+        play: 'playing 1s infinite',
+        fire: 'fire 2s infinite'
       }
     }
   },
