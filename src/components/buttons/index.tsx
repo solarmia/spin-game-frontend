@@ -1,22 +1,33 @@
 import { memo } from 'react'
 
 import { Claim, Deposit } from '@/assets'
+import { WalletContextState } from '@solana/wallet-adapter-react'
 
 type Props = {
-    handleDeposit: React.Dispatch<React.SetStateAction<boolean>>,
+    setDepositModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setClaimModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    claimable: undefined | number
+    process: boolean
+    deposit: boolean
+    wallet: WalletContextState
+    playing: boolean
 }
 
-const Buttons = ({ handleDeposit }: Props) => {
+const Buttons = ({ setDepositModalOpen, setClaimModalOpen, claimable, process, deposit, wallet,playing }: Props) => {
     return (
         <>
-            <div className={`absolute flex items-center justify-center gap-[10vh] right-[calc(50vw_+_25vh_+_30px)] z-[10] h-[100vh] `}>
-                <img src={Deposit} className='cursor-pointer h-[50%]' onClick={() => {
-                    handleDeposit(true)
-                }} />
-            </div>
-            <div className={`absolute flex items-center justify-center gap-[10vh] left-[calc(50vw_+_25vh_+_30px)] z-[10] h-[100vh] `}>
-                <img src={Claim} className='cursor-pointer  h-[50%]' onClick={() => {}} />
-            </div>
+            {wallet.publicKey ? <>
+                {!deposit && !playing && !process? <div className={`absolute flex items-center justify-center gap-[10vh] right-[calc(50vw_+_25vh_+_30px)] z-[10] h-[100vh] `}>
+                    <img src={Deposit} className='cursor-pointer h-[50%]' onClick={() => {
+                        setDepositModalOpen(true)
+                    }} />
+                </div> : <></>}
+                {!process && playing? <div className={`absolute flex items-center justify-center gap-[10vh] left-[calc(50vw_+_25vh_+_30px)] z-[10] h-[100vh] `}>
+                    <img src={Claim} className='cursor-pointer  h-[50%]' onClick={() => {
+                        setClaimModalOpen(true)
+                    }} />
+                </div> : <></>}
+            </> : <></>}
         </>
     )
 }

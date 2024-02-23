@@ -8,3 +8,7 @@ export type gameProps = {
   address: string,
   prize: Array<any>
 }
+
+export type fetchProps = {
+  address: string
+}

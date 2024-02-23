@@ -1,4 +1,5 @@
 import { Arrow, Spin, Symbol } from '@/assets'
+import { addingStep, decreaseRate, initialDistance, lastDistance } from '@/data/constant'
 import * as service from '@/service'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { SetStateAction, memo, useEffect, useState } from 'react'
@@ -6,30 +7,28 @@ import { SetStateAction, memo, useEffect, useState } from 'react'
 type Props = {
   data: any[],
   running: boolean,
-  setRunning: React.Dispatch<React.SetStateAction<boolean>>,
+  setRunning: React.Dispatch<React.SetStateAction<boolean>>
   angle: number | undefined
-  setAngle: React.Dispatch<SetStateAction<number | undefined>>,
-  lockAmount: number | undefined
+  setAngle: React.Dispatch<SetStateAction<number | undefined>>
+  deposit: boolean
+  setProcess: React.Dispatch<React.SetStateAction<boolean>>
+  setClaimModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpinWheel = ({ data, running, setRunning, angle, setAngle, lockAmount }: Props) => {
+const SpinWheel = ({ data, running, setRunning, angle, setAngle, deposit, setProcess,setClaimModalOpen }: Props) => {
   const [rotating, setRotating] = useState<number>(0)
   const [step, setStep] = useState<number>(1)
   const wallet = useWallet();
-  // const [showModal, SetShowModal] = useState<boolean>(false)
-  const addingStep = 0.04
-  const decreaseRate = 0.993
-  const initialDistance = 4000
-  const lastDistance = 2550
 
   // Start spin wheel
   const startRotate = async () => {
-    if (wallet.publicKey) {
+    if (wallet.publicKey && deposit) {
       const res = await service.play({ address: wallet.publicKey?.toString(), prize: data })
       setAngle(res.data.angle)
-      if (angle && lockAmount) {
-        setRunning(true)
-      }
+      console.log('res.data.angle', res.data.angle)
+      setRunning(true)
+      // if (res.data.angle && deposit) {
+      // }
     }
   }
 
@@ -42,10 +41,10 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle, lockAmount }: P
   //   return num < 0 ? 0 : num
   // }
 
-  useEffect(() => {
-    setRunning(false)
-     // 12960 ~ 13320 
-  }, [])
+  // useEffect(() => {
+  //   setRunning(false)
+  //   // 12960 ~ 13320 
+  // }, [])
 
   // Rotating effect
   useEffect(() => {
@@ -56,6 +55,8 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle, lockAmount }: P
           setRunning(false)
           setAngle(undefined)
           setStep(1)
+          setClaimModalOpen(true)
+          // setProcess(false)
         } else {
           setRotating(rotating + step)
           if (rotating < initialDistance) setStep(step + addingStep)
@@ -77,12 +78,17 @@ const SpinWheel = ({ data, running, setRunning, angle, setAngle, lockAmount }: P
           const numberStyle = {
             transform: `rotate(${index * (-45)}deg)`
           };
-          return <span className={`absolute text-[3vh] w-[100px] text-center h-[calc(35%)] text-white z-50`} style={numberStyle}>{value.name}</span>
-        })}
+          return (
+            <div key={index} className='absolute h-[calc(40%)] flex flex-row'>
+              <span className={` text-[3vh]  text-center text-white z-50  `} style={numberStyle}>{value.name}<img src={value.img} alt="" className='h-[6vh]' /></span>
+            </div>
+          )
+        }
+        )}
       </div>
-      <img src={Symbol} className={`absolute w-[30%] ${running && lockAmount ? 'animate-play ' : !running && lockAmount ? 'animate-ready cursor-pointer' : ''}  rounded-[50%] z-50`} onClick={() => startRotate()} />
+      <img src={Symbol} className={`absolute w-[30%] ${running && deposit ? 'animate-play ' : !running && deposit ? 'animate-ready cursor-pointer' : ''}  rounded-[50%] z-50`} onClick={() => startRotate()} />
       {running ? <div className='absolute backdrop-blur-md w-[100vw] h-[100vh] z-30 ' /> : <></>}
-      <img src={Arrow} className={`absolute h-[24%] top-[10%] z-50`} />
+      <img src={Arrow} className={`absolute h-[24%] top-[7%] z-50`} />
       {/* <img src={Arrow} className='absolute h-[10%] top-[23%]'/> */}
     </div>
   )

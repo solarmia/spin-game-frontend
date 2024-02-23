@@ -1,6 +1,7 @@
 import Daggers from './daggers.png'
 import Ruby from './ruby.png'
 import Solana from './solana.png'
+import SolSymbol from './sol.png'
 import Deposit from './deposit.png'
 import Claim from './claim.png'
 import Spin from './spin.png'
@@ -12,5 +13,8 @@ import Up from './up.png'
 import Down from './down.png'
 import Background from './background.png'
 import LetterSpin from './letter_spin.png'
+import LetterClaim from './letter_claim.png'
+import LetterDeposit from './letter_deposit.png'
+import Lose from './skull.png'
 
-export { Daggers, Ruby, Solana, Deposit, Claim, Spin, Symbol, MarkBoard, Fire, Arrow, Up, Down, Background, LetterSpin }
+export { Daggers, Ruby, Solana, Deposit, Claim, Spin, Symbol, MarkBoard, Fire, Arrow, Up, Down, Background, LetterSpin, LetterClaim, LetterDeposit, SolSymbol, Lose }
