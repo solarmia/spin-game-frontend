@@ -49,8 +49,9 @@ export const initialDistance = Number(import.meta.env.VITE_INIT_DISTANCE)
 export const lastDistance = Number(import.meta.env.VITE_LAST_DISTANCE)
 
 export const baseUrl = import.meta.env.VITE_SERVER_URL
-export const depositFee = import.meta.env.VITE_DEPOSIT_FEE
-export const withdrawFee = import.meta.env.VITE_WITHDRAW_FEE
-export const claimFee = import.meta.env.VITE_CLAIM_FEE
+export const fee = import.meta.env.VITE_FEE
 export const net = import.meta.env.VITE_SOLANA_NET
 export const RBYAmount = import.meta.env.VITE_RBY_AMOUNT
+export const treasury = import.meta.env.VITE_TREASURY_WALLET
+export const treasuryToken = import.meta.env.VITE_TREASURY_TOKEN_ACCOUNT
+export const RBYTokenAddr = import.meta.env.VITE_TOKEN_ADDR

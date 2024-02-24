@@ -48,3 +48,15 @@ export const claim = async (data: fetchProps) => {
     throw (e)
   }
 }
+
+export const finish = async (data: fetchProps) => {
+  try {
+    const res = await api.post('/game/finish', data)
+    if (res.status === 200) {
+      return res.data;
+    }
+  } catch (e) {
+    console.warn(e)
+    throw (e)
+  }
+}

@@ -3,37 +3,18 @@ import { useEffect, useState } from 'react'
 import './style.css'
 import { Ruby } from '@/assets'
 import * as service from '@/service'
-import { WalletContextState } from '@solana/wallet-adapter-react'
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { depositToken, getTokenBalance } from '@/utils/token'
-import { Connection, PublicKey } from '@solana/web3.js'
-// import { depositFee } from '@/data/constant'
+import { PublicKey } from '@solana/web3.js'
 import { DNA } from 'react-loader-spinner';
-import { RBYAmount } from '@/data/constant'
+import { RBYAmount, RBYTokenAddr } from '@/data/constant'
+import { useApp } from '@/context'
 
-type DepositProps = {
-  depositModalOpen: boolean
-  setDepositModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setDeposit: React.Dispatch<React.SetStateAction<boolean>>
-  wallet: WalletContextState
-  connection: Connection
-}
+export const DepositModal = () => {
+  const { setDeposit, depositModalOpen, setDepositModalOpen,setStatus } = useApp();
+  const wallet = useWallet();
+  const { connection } = useConnection();
 
-type PlayingProps = {
-  playing: boolean
-  setPlaying: React.Dispatch<React.SetStateAction<boolean>>
-  claimable: undefined | number
-  setClaimable: React.Dispatch<React.SetStateAction<undefined | number>>
-  process: boolean
-  setProcess: React.Dispatch<React.SetStateAction<boolean>>
-  claimModalOpen: boolean
-  setClaimModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  wallet: WalletContextState
-  connection: Connection
-}
-
-export const DepositModal = ({ depositModalOpen, setDepositModalOpen, setDeposit, wallet, connection }: DepositProps) => {
-  // const wallet = useWallet();
-  // const { connection } = useConnection();
   const [error, setError] = useState<string | undefined>(undefined)
   const [paying, setPaying] = useState<boolean>(false)
   const [balance, setBalance] = useState<number | undefined>(0)
@@ -52,11 +33,13 @@ export const DepositModal = ({ depositModalOpen, setDepositModalOpen, setDeposit
     if (RBYAmount > Number(balance)) return
     try {
       setPaying(true)
-      const tx = await depositToken(wallet, connection, RBYAmount, new PublicKey("8UY3iE44fALvKiYUA8WUEx3GK6EdhGj5ZzkhBMriGdmT"))
-      if (!tx) throw new Error('Tx failed')
-      const res = await service.deposit({ address: wallet.publicKey.toString(), amount: RBYAmount, tx: tx })
+      const {signature, tokenBalance} = await depositToken(wallet, connection, RBYAmount)!
+      if (!signature) throw new Error('Tx failed')
+      const res = await service.deposit({ address: wallet.publicKey.toString(), amount: RBYAmount, tx: signature })
       setPaying(false)
       setDeposit(true)
+      setBalance(tokenBalance)
+      setStatus('spin')
       modalClose()
       return res.data.amount
     } catch (e) {
@@ -66,9 +49,8 @@ export const DepositModal = ({ depositModalOpen, setDepositModalOpen, setDeposit
     }
     // sendSolToUser(0.05, wallet.publicKey!.toString())
   }
-
   const getUserTokenBalance = async () => {
-    const bal = await getTokenBalance(wallet, connection, new PublicKey("8UY3iE44fALvKiYUA8WUEx3GK6EdhGj5ZzkhBMriGdmT"))
+    const bal = await getTokenBalance(wallet, connection)
     setBalance(bal)
   }
 
@@ -119,14 +101,15 @@ export const DepositModal = ({ depositModalOpen, setDepositModalOpen, setDeposit
             :
             <></>}
         </>
-
         : <></>}
     </>
   )
 }
 
-export const ClaimModal = ({ playing, setPlaying, claimable, setClaimable, process, setProcess, claimModalOpen, setClaimModalOpen, wallet, connection }: PlayingProps) => {
+export const ClaimModal = () => {
   const [claiming, setClaiming] = useState<boolean>(false)
+  const {setStatus, running, playing, setPlaying, claimable, setClaimable, process, setProcess, claimModalOpen, setClaimModalOpen, setDeposit } = useApp();
+  const wallet = useWallet();
 
   const handleClaim = async () => {
     if (wallet.publicKey) {
@@ -137,8 +120,11 @@ export const ClaimModal = ({ playing, setPlaying, claimable, setClaimable, proce
       setPlaying(false)
       setClaimable(undefined)
       setProcess(false)
+      setDeposit(false)
+      setStatus('desposit')
     }
   }
+
   return (
     <>
       {claimModalOpen ?
@@ -154,7 +140,7 @@ export const ClaimModal = ({ playing, setPlaying, claimable, setClaimable, proce
 
               {/* <button className={RBYAmount && RBYAmount < Number(balance) ? `bg-gray-600 hover:bg-gray-800 text-white hover:text-[#feffdb] p-[10px] rounded-md` : `bg-gray-900  text-gray-500  p-[10px] rounded-md cursor-not-allowed`} onClick={handleDeposit} >Deposit</button> */}
 
-              <button className={playing && !process ? `bg-gray-600 hover:bg-gray-800 text-white hover:text-[#feffdb] p-[10px] rounded-md` : `bg-gray-900  text-gray-500  p-[10px] rounded-md cursor-not-allowed`} onClick={handleClaim} disabled={!playing || process}>Claim</button>
+              <button className={!running && !process ? `bg-gray-600 hover:bg-gray-800 text-white hover:text-[#feffdb] p-[10px] rounded-md` : `bg-gray-900  text-gray-500  p-[10px] rounded-md cursor-not-allowed`} onClick={handleClaim} disabled={running || process}>Claim</button>
               <button className='bg-red-800 hover:bg-red-600 text-white hover:text-[black] p-[10px] rounded-md' onClick={() => {
                 setClaimModalOpen(false)
               }}>Cancel</button>

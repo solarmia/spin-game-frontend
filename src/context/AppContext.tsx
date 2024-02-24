@@ -5,6 +5,8 @@ import {
   useState,
   // useLayoutEffect,
 } from "react";
+import * as service from '@/service'
+
 // import { useNavigate } from "react-router-dom";
 // import { userService } from "services";
 // import { useLocalStorage } from "usehooks-ts";
@@ -28,18 +30,24 @@ export interface IApp {
   setDeposit: React.Dispatch<React.SetStateAction<boolean>>;
   playing: boolean;
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
-  claimable:undefined | number;
+  claimable: undefined | number;
   setClaimable: React.Dispatch<React.SetStateAction<undefined | number>>;
   process: boolean;
   setProcess: React.Dispatch<React.SetStateAction<boolean>>;
-  totalClaimed:undefined | number;
+  totalClaimed: undefined | number;
   setTotalClaimed: React.Dispatch<React.SetStateAction<undefined | number>>;
-  totalDeposited:undefined | number;
+  totalDeposited: undefined | number;
   setTotalDeposited: React.Dispatch<React.SetStateAction<undefined | number>>;
   depositModalOpen: boolean;
   setDepositModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   claimModalOpen: boolean;
   setClaimModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  ready: boolean;
+  setReady: React.Dispatch<React.SetStateAction<boolean>>;
+  status: string | undefined;
+  setStatus: React.Dispatch<React.SetStateAction<string | undefined>>;
+  fetchData: (address: string) => Promise<void>
+  initData: () => void
 }
 
 export const AppContext = createContext<IApp>({
@@ -63,6 +71,12 @@ export const AppContext = createContext<IApp>({
   setDepositModalOpen: () => { },
   claimModalOpen: false,
   setClaimModalOpen: () => { },
+  ready: false,
+  setReady: () => { },
+  status: undefined,
+  setStatus: () => { },
+  fetchData: () => Promise.resolve(),
+  initData: () => { }
 });
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
@@ -76,6 +90,36 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [totalDeposited, setTotalDeposited] = useState<undefined | number>(undefined)
   const [depositModalOpen, setDepositModalOpen] = useState<boolean>(false)
   const [claimModalOpen, setClaimModalOpen] = useState<boolean>(false)
+  const [ready, setReady] = useState<boolean>(false)
+  // const [showDeposit, setShowDeposit] = useState<boolean>(false)
+  const [status, setStatus] = useState<string | undefined>(undefined)
+
+  const fetchData = async (address: string): Promise<void> => {
+    const res = await service.fetch({ address: address })
+    console.log(res)
+    setDeposit(res.data.deposit)
+    setPlaying(res.data.playing)
+    setClaimable(res.data.claimable)
+    setTotalDeposited(res.data.totalDeposit)
+    setTotalClaimed(res.data.totalClaim)
+    setProcess(res.data.process)
+    if (!res.data.deposit && !res.data.playing )  setStatus('deposit')
+    if (res.data.deposit && !res.data.playing && !res.data.process) setStatus('spin')
+    if (res.data.playing && res.data.process) setStatus('playing')
+    if (!res.data.deposit && res.data.playing && !res.data.process) setStatus('claim')
+  }
+
+  const initData = () => {
+    setDeposit(false)
+    setPlaying(false)
+    setClaimable(undefined)
+    setTotalDeposited(undefined)
+    setTotalClaimed(undefined)
+    setProcess(false)
+    // setShowDeposit(false)
+    setStatus(undefined)
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -99,6 +143,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setDepositModalOpen,
         claimModalOpen,
         setClaimModalOpen,
+        ready,
+        setReady,
+        fetchData,
+        initData,
+        status,
+        setStatus
       }}
     >
       {children}
