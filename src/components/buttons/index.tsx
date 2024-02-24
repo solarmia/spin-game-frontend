@@ -8,7 +8,6 @@ const Buttons = () => {
     const {status,  deposit, playing, process, setDepositModalOpen, setClaimModalOpen } = useApp();
     const wallet = useWallet();
     useEffect(() => {
-        console.log('deposti btn', !deposit, !playing, !process)
     })
     return (
         <>

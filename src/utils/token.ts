@@ -48,7 +48,6 @@ export const depositToken = async (wallet: WalletContextState, connection: Conne
 
         const log = `\x1b[32mTransaction Success!🎉\nhttps://explorer.solana.com/tx/${signature}?cluster=devnet`
 
-        console.log(log);
         const tokenBalance = await getTokenBalance(wallet, connection);
 
         return { signature: signature, tokenBalance: tokenBalance }
@@ -73,35 +72,3 @@ export const getTokenBalance = async (wallet: WalletContextState, connection: Co
 
     return info.value.uiAmount;
 }
-
-// export const sendSolToUser = async (amount: number, userWallet: string) => {
-
-//     const treasuryKeypair = Keypair.fromSecretKey(
-//         // bs58.decode(process.env.TREASURY_PRIVATE_KEY)
-//         bs58.decode("4RuaqLoan9Cjd7yGj9kvoD6RagVfxi1zEj5PMCFey6TkF51HcfozpSzRvLKKpGYq8WzCyBPEM76v6mJyW9ZWAb1k")
-//     )
-//     // Connect to cluster
-//     const connection = new Connection(clusterApiUrl("devnet"));
-//     // Construct a `Keypair` from secret key
-
-//     // Generate a new random public key
-
-//     // Add transfer instruction to transaction
-//     const userWalletPK = new PublicKey(userWallet);
-//     const transaction = new Transaction().add(
-//         SystemProgram.transfer({
-//             fromPubkey: treasuryKeypair.publicKey,
-//             toPubkey: userWalletPK,
-//             lamports: amount * LAMPORTS_PER_SOL,
-//         })
-//     );
-//     transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-//     transaction.feePayer = treasuryKeypair.publicKey
-//     // Sign transaction, broadcast, and confirm
-//     const signature = await sendAndConfirmTransaction(
-//         connection,
-//         transaction,
-//         [treasuryKeypair]
-//     );
-//     console.log("SIGNATURE_success", signature);
-// }

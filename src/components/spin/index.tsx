@@ -12,7 +12,7 @@ const SpinWheel = () => {
   const [rotating, setRotating] = useState<number>(0)
   const [step, setStep] = useState<number>(1)
 
-  const { setProcess, ready, setReady, running, setRunning, angle, setAngle, deposit, setClaimModalOpen, setClaimable } = useApp();
+  const { setDeposit,status,setProcess, ready, setReady, running, setRunning, angle, setAngle, deposit, setClaimModalOpen, setClaimable } = useApp();
   const wallet = useWallet();
 
   // Start spin wheel
@@ -21,6 +21,7 @@ const SpinWheel = () => {
       setReady(true)
       const res = await service.play({ address: wallet.publicKey?.toString(), prize: Data })
       setReady(false)
+      setDeposit(false)
       setAngle(res.data.angle)
       setClaimable(res.data.reward)
       setRunning(true)
@@ -57,7 +58,6 @@ const SpinWheel = () => {
         }
       }, 10)
     } else {
-      // if (rotating > 0) alert(calc())
     }
   }, [rotating, running])
 
@@ -77,7 +77,7 @@ const SpinWheel = () => {
         }
         )}
       </div>
-      <img src={Symbol} className={`absolute w-[30%] ${running && deposit ? 'animate-play ' : !running && deposit ? 'animate-ready cursor-pointer' : ''}  rounded-[50%] z-50`} onClick={() => startRotate()} />
+      <img src={Symbol} className={`absolute w-[30%] ${running && !deposit ? 'animate-play ' : status == 'spin' && deposit? 'animate-ready cursor-pointer' : ''}  rounded-[50%] z-50`} onClick={() => startRotate()} />
       {running ? <div className='absolute backdrop-blur-md w-[100vw] h-[100vh] z-30 ' /> : <></>}
       <img src={Arrow} className={`absolute h-[24%] top-[7%] z-50`} />
       {ready ?

@@ -11,7 +11,7 @@ import { RBYAmount, RBYTokenAddr } from '@/data/constant'
 import { useApp } from '@/context'
 
 export const DepositModal = () => {
-  const { setDeposit, depositModalOpen, setDepositModalOpen,setStatus } = useApp();
+  const { fetchData,setDeposit, depositModalOpen, setDepositModalOpen,setStatus } = useApp();
   const wallet = useWallet();
   const { connection } = useConnection();
 
@@ -21,7 +21,6 @@ export const DepositModal = () => {
 
   const modalClose = async () => {
     setDepositModalOpen(false)
-    setDeposit(false)
   }
 
   const handleDeposit = async () => {
@@ -108,7 +107,7 @@ export const DepositModal = () => {
 
 export const ClaimModal = () => {
   const [claiming, setClaiming] = useState<boolean>(false)
-  const {setStatus, running, playing, setPlaying, claimable, setClaimable, process, setProcess, claimModalOpen, setClaimModalOpen, setDeposit } = useApp();
+  const {fetchData,setStatus, running, playing, setPlaying, claimable, setClaimable, process, setProcess, claimModalOpen, setClaimModalOpen, setDeposit } = useApp();
   const wallet = useWallet();
 
   const handleClaim = async () => {
@@ -121,6 +120,7 @@ export const ClaimModal = () => {
       setClaimable(undefined)
       setProcess(false)
       setDeposit(false)
+      fetchData(wallet.publicKey.toString())
       setStatus('desposit')
     }
   }

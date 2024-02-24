@@ -96,7 +96,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchData = async (address: string): Promise<void> => {
     const res = await service.fetch({ address: address })
-    console.log(res)
     setDeposit(res.data.deposit)
     setPlaying(res.data.playing)
     setClaimable(res.data.claimable)

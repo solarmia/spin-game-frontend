@@ -15,6 +15,7 @@ import Background from './background.png'
 import LetterSpin from './letter_spin.png'
 import LetterClaim from './letter_claim.png'
 import LetterDeposit from './letter_deposit.png'
+import LetterConnect from './letter_connect.png'
 import Lose from './skull.png'
 
-export { Daggers, Ruby, Solana, Deposit, Claim, Spin, Symbol, MarkBoard, Fire, Arrow, Up, Down, Background, LetterSpin, LetterClaim, LetterDeposit, SolSymbol, Lose }
+export { Daggers, Ruby, Solana, Deposit, Claim, Spin, Symbol, MarkBoard, Fire, Arrow, Up, Down, Background, LetterSpin, LetterClaim, LetterDeposit, SolSymbol, Lose, LetterConnect }

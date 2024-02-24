@@ -16,7 +16,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (wallet && wallet.publicKey && connection) {
-      console.log(connection)
       fetchData(wallet.publicKey.toString())
     } else {
       initData()
