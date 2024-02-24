@@ -4,7 +4,7 @@ import { MarkBoard, Fire, LetterSpin, LetterDeposit, LetterClaim, LetterConnect 
 import { useApp } from '@/context'
 
 const MarkPanel = () => {
-    const { deposit, playing, status } = useApp();
+    const { deposit,  status } = useApp();
 
     return (
         <div className='absolute bottom-0 justify-center h-[25vh]'>

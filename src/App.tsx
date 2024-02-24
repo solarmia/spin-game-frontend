@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
-// import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
-import { Banner, Buttons, SpinWheel, MarkPanel, WalletContextProvider, DepositModal, ClaimModal } from '@/components'
+import { Banner, Buttons, SpinWheel, MarkPanel,  DepositModal, ClaimModal } from '@/components'
 
 import { Background } from '@/assets'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'

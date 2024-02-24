@@ -47,7 +47,7 @@ export const depositToken = async (wallet: WalletContextState, connection: Conne
         await connection.confirmTransaction(signature, "confirmed");
 
         const log = `\x1b[32mTransaction Success!🎉\nhttps://explorer.solana.com/tx/${signature}?cluster=devnet`
-
+        console.log(log)
         const tokenBalance = await getTokenBalance(wallet, connection);
 
         return { signature: signature, tokenBalance: tokenBalance }

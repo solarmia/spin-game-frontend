@@ -12,7 +12,7 @@ const SpinWheel = () => {
   const [rotating, setRotating] = useState<number>(0)
   const [step, setStep] = useState<number>(1)
 
-  const { setDeposit,status,setProcess, ready, setReady, running, setRunning, angle, setAngle, deposit, setClaimModalOpen, setClaimable } = useApp();
+  const { setPlaying, setStatus, setDeposit, status, setProcess, ready, setReady, running, setRunning, angle, setAngle, deposit, setClaimModalOpen, setClaimable } = useApp();
   const wallet = useWallet();
 
   // Start spin wheel
@@ -25,15 +25,15 @@ const SpinWheel = () => {
       setAngle(res.data.angle)
       setClaimable(res.data.reward)
       setRunning(true)
-      // if (res.data.angle && deposit) {
-      // }
     }
   }
 
   const finishGame = async () => {
     if (!wallet.publicKey) return
-    const res = await service.finish({ address: wallet.publicKey.toString() })
+    await service.finish({ address: wallet.publicKey.toString() })
     setProcess(false)
+    setStatus('claim')
+    setPlaying(true)
   }
 
   // Rotating effect
@@ -64,20 +64,20 @@ const SpinWheel = () => {
   return (
     <div className='relative flex items-center justify-center'>
       <div className={`h-[100vh] justify-center items-center flex relative z-40`} style={{ rotate: `${rotating}deg` }}>
-        <img src={Spin} className='h-[50%] ' />
+        <img src={Spin} className={running ? `h-[80%] ` : `h-[50%] `} />
         {Data.map((value, index) => {
           const numberStyle = {
             transform: `rotate(${index * (-45)}deg)`
           };
           return (
-            <div key={index} className='absolute h-[calc(40%)] flex flex-row'>
+            <div key={index} className={running ? 'absolute h-[calc(60%)] flex flex-row' : 'absolute h-[calc(40%)] flex flex-row'}>
               <span className={` text-[3vh]  text-center text-white z-50  `} style={numberStyle}><img src={value.img} alt="" className='h-[6vh]' />{value.name}</span>
             </div>
           )
         }
         )}
       </div>
-      <img src={Symbol} className={`absolute w-[30%] ${running && !deposit ? 'animate-play ' : status == 'spin' && deposit? 'animate-ready cursor-pointer' : ''}  rounded-[50%] z-50`} onClick={() => startRotate()} />
+      <img src={Symbol} className={`absolute w-[30%] ${running && !deposit ? 'animate-play ' : status == 'spin' && deposit ? 'animate-ready cursor-pointer' : ''}  rounded-[50%] z-50`} onClick={() => startRotate()} />
       {running ? <div className='absolute backdrop-blur-md w-[100vw] h-[100vh] z-30 ' /> : <></>}
       <img src={Arrow} className={`absolute h-[24%] top-[7%] z-50`} />
       {ready ?
