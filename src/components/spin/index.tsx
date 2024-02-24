@@ -28,12 +28,21 @@ const SpinWheel = () => {
     }
   }
 
-  const finishGame = async () => {
+  const finishGame = async (angle:number) => {
     if (!wallet.publicKey) return
     await service.finish({ address: wallet.publicKey.toString() })
-    setProcess(false)
-    setStatus('claim')
-    setPlaying(true)
+    setTimeout(() => {
+      setProcess(false)
+      setStatus('claim')
+      setPlaying(true)
+      setClaimModalOpen(true)
+      setRotating(angle)
+      setRunning(false)
+      setAngle(undefined)
+      setStep(1)
+      setProcess(false)
+      setRotating(0)
+    }, 500)
   }
 
   // Rotating effect
@@ -41,14 +50,7 @@ const SpinWheel = () => {
     if (running) {
       setTimeout(() => {
         if (angle && rotating + step > angle) {
-          setRotating(angle)
-          setRunning(false)
-          setAngle(undefined)
-          setStep(1)
-          setClaimModalOpen(true)
-          setProcess(false)
-          setRotating(0)
-          finishGame()
+          finishGame(angle)
         } else {
           setRotating(rotating + step)
           if (rotating < initialDistance) setStep(step + addingStep)
