@@ -2,9 +2,9 @@ import { Lose, SolSymbol } from "@/assets"
 
 export const Data = [
   {
-    name: '1',
+    name: '0.5',
     img: SolSymbol,
-    percentpage: 1 // 1%
+    percentpage: 0.5 // 1%
   },
   {
     name: '',
@@ -48,6 +48,7 @@ export const decreaseRate = Number(import.meta.env.VITE_DEC_RATE)
 export const initialDistance = Number(import.meta.env.VITE_INIT_DISTANCE)
 export const lastDistance = Number(import.meta.env.VITE_LAST_DISTANCE)
 
+export const rpcURL = import.meta.env.VITE_RPC_URL
 export const baseUrl = import.meta.env.VITE_SERVER_URL
 export const fee = import.meta.env.VITE_FEE
 export const net = import.meta.env.VITE_SOLANA_NET

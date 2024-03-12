@@ -7,13 +7,13 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import * as web3 from "@solana/web3.js";
 import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import { net } from "@/data/constant";
+import { net, rpcURL } from "@/data/constant";
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const wallets = [new PhantomWalletAdapter(), new SolflareWalletAdapter()];
 
   // Net RPC url
-  const endpoint = web3.clusterApiUrl(net);
+  const endpoint = rpcURL;
   
   return (
     <ConnectionProvider endpoint={endpoint}>

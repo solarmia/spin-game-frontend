@@ -10,7 +10,7 @@ export const depositToken = async (wallet: WalletContextState, connection: Conne
     try {
         if (!wallet || !wallet.publicKey) {
             console.log("Wallet not connected")
-            return{ signature: '', tokenBalance: 0 }
+            return { signature: '', tokenBalance: 0 }
         }
 
         const sourceAccount = await getAssociatedTokenAddress(
@@ -53,22 +53,26 @@ export const depositToken = async (wallet: WalletContextState, connection: Conne
         return { signature: signature, tokenBalance: tokenBalance }
     } catch (e) {
         console.warn(e)
-        return  { signature: '', tokenBalance: 0 }
+        return { signature: '', tokenBalance: 0 }
     }
 }
 
 export const getTokenBalance = async (wallet: WalletContextState, connection: Connection) => {
-    if (!wallet.publicKey) {
-        console.log("Wallet not connected")
-        return undefined
+    try {
+        if (!wallet.publicKey) {
+            console.log("Wallet not connected")
+            return undefined
+        }
+        const sourceAccount = await getAssociatedTokenAddress(
+            tokenMint,
+            wallet.publicKey
+        );
+
+        const info = await connection.getTokenAccountBalance(sourceAccount);
+        if (info.value.uiAmount == null) throw new Error('No balance found');
+
+        return info.value.uiAmount;
+    } catch (e) {
+        return 0
     }
-    const sourceAccount = await getAssociatedTokenAddress(
-        tokenMint,
-        wallet.publicKey
-    );
-
-    const info = await connection.getTokenAccountBalance(sourceAccount);
-    if (!info.value.uiAmount) throw new Error('No balance found');
-
-    return info.value.uiAmount;
 }
