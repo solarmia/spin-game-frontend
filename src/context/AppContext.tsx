@@ -95,17 +95,20 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [status, setStatus] = useState<string | undefined>(undefined)
 
   const fetchData = async (address: string): Promise<void> => {
-    const res = await service.fetch({ address: address })
-    setDeposit(res.data.deposit)
-    setPlaying(res.data.playing)
-    setClaimable(res.data.claimable)
-    setTotalDeposited(res.data.totalDeposit)
-    setTotalClaimed(res.data.totalClaim)
-    setProcess(res.data.process)
-    if (!res.data.deposit && !res.data.playing )  setStatus('deposit')
-    if (res.data.deposit && !res.data.playing && !res.data.process) setStatus('spin')
-    if (res.data.playing && res.data.process) setStatus('playing')
-    if (!res.data.deposit && res.data.playing && !res.data.process) setStatus('claim')
+    try {
+      const res = await service.fetch({ address: address })
+      setDeposit(res.data.deposit)
+      setPlaying(res.data.playing)
+      setClaimable(res.data.claimable)
+      setTotalDeposited(res.data.totalDeposit)
+      setTotalClaimed(res.data.totalClaim)
+      setProcess(res.data.process)
+      if (!res.data.deposit && !res.data.playing) setStatus('deposit')
+      if (res.data.deposit && !res.data.playing && !res.data.process) setStatus('spin')
+      if (res.data.playing && res.data.process) setStatus('playing')
+      if (!res.data.deposit && res.data.playing && !res.data.process) setStatus('claim')
+    } catch (e) {
+    }
   }
 
   const initData = () => {

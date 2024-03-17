@@ -39,11 +39,9 @@ export const DepositModal = () => {
       setBalance(tokenBalance)
       setStatus('spin')
       modalClose()
-      return res.data.amount
+      console.log(res.data.amount)
     } catch (e) {
-      console.log(e)
       setPaying(false)
-      return { error: 'Error' }
     }
     // sendSolToUser(0.05, wallet.publicKey!.toString())
   }
@@ -111,16 +109,20 @@ export const ClaimModal = () => {
 
   const handleClaim = async () => {
     if (wallet.publicKey) {
-      setClaiming(true)
-      await service.claim({ address: wallet.publicKey.toString() })
-      setClaimModalOpen(false)
-      setClaiming(false)
-      setPlaying(false)
-      setClaimable(undefined)
-      setProcess(false)
-      setDeposit(false)
-      fetchData(wallet.publicKey.toString())
-      setStatus('desposit')
+      try {
+        setClaiming(true)
+        await service.claim({ address: wallet.publicKey.toString() })
+        setClaimModalOpen(false)
+        setClaiming(false)
+        setPlaying(false)
+        setClaimable(undefined)
+        setProcess(false)
+        setDeposit(false)
+        fetchData(wallet.publicKey.toString())
+        setStatus('desposit')
+      } catch (e) {
+        setClaiming(false)
+      }
     }
   }
 

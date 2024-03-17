@@ -18,31 +18,39 @@ const SpinWheel = () => {
   // Start spin wheel
   const startRotate = async () => {
     if (wallet.publicKey && deposit) {
-      setReady(true)
-      const res = await service.play({ address: wallet.publicKey?.toString(), prize: Data })
-      setReady(false)
-      setDeposit(false)
-      setAngle(res.data.angle)
-      setClaimable(res.data.reward)
-      setRunning(true)
+      try {
+        setReady(true)
+        const res = await service.play({ address: wallet.publicKey?.toString(), prize: Data })
+        setReady(false)
+        setDeposit(false)
+        setAngle(res.data.angle)
+        setClaimable(res.data.reward)
+        setRunning(true)
+      } catch (e) {
+        setReady(false)
+      }
     }
   }
 
-  const finishGame = async (angle:number) => {
+  const finishGame = async (angle: number) => {
     if (!wallet.publicKey) return
-    await service.finish({ address: wallet.publicKey.toString() })
-    setTimeout(() => {
-      setProcess(false)
-      setStatus('claim')
-      setPlaying(true)
-      setClaimModalOpen(true)
-      setRotating(angle)
-      setRunning(false)
-      setAngle(undefined)
-      setStep(1)
-      setProcess(false)
-      setRotating(0)
-    }, 500)
+    try {
+      await service.finish({ address: wallet.publicKey.toString() })
+      setTimeout(() => {
+        setProcess(false)
+        setStatus('claim')
+        setPlaying(true)
+        setClaimModalOpen(true)
+        setRotating(angle)
+        setRunning(false)
+        setAngle(undefined)
+        setStep(1)
+        setProcess(false)
+        setRotating(0)
+      }, 500)
+    } catch (e) {
+
+    }
   }
 
   // Rotating effect
