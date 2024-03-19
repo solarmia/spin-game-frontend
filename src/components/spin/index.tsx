@@ -20,7 +20,7 @@ const SpinWheel = () => {
     if (wallet.publicKey && deposit) {
       try {
         setReady(true)
-        const res = await service.play({ address: wallet.publicKey?.toString(), prize: Data })
+        const res = await service.play({ address: wallet.publicKey?.toString(), prize: Data() })
         setReady(false)
         setDeposit(false)
         setAngle(res.data.angle)
@@ -75,7 +75,7 @@ const SpinWheel = () => {
     <div className='relative flex items-center justify-center'>
       <div className={`h-[100vh] justify-center items-center flex relative z-40`} style={{ rotate: `${rotating}deg` }}>
         <img src={Spin} className={running ? `h-[80%] ` : `h-[50%] `} />
-        {Data.map((value, index) => {
+        {Data().map((value, index) => {
           const numberStyle = {
             transform: `rotate(${index * (-45)}deg)`
           };

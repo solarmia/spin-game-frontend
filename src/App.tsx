@@ -15,7 +15,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (wallet && wallet.publicKey && connection) {
-      fetchData(wallet.publicKey.toString())
+      fetchData(wallet, connection)
     } else {
       initData()
     }
@@ -25,7 +25,7 @@ const App: React.FC = () => {
     <div className={`relative  bg-cover bg-bottom overflow-hidden`} style={{ backgroundImage: `url(${Background})` }}>
       <DepositModal />
       <ClaimModal />
-      <div className='absolute right-[30px] top-[20px] bg-[#00000088] rounded-[4px] z-20'>
+      <div className='top-[20px] right-[30px] z-20 absolute bg-[#00000088] rounded-[4px]'>
         <WalletMultiButton />
       </div>
       <div className='flex flex-col justify-center items-center'>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import './style.css'
-import { Ruby, SolSymbol } from '@/assets'
+import { Lose, Ruby, SolSymbol } from '@/assets'
 import * as service from '@/service'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { depositToken, getTokenBalance } from '@/utils/token'
@@ -10,13 +10,12 @@ import { RBYAmount } from '@/data/constant'
 import { useApp } from '@/context'
 
 export const DepositModal = () => {
-  const { setDeposit, depositModalOpen, setDepositModalOpen, setStatus } = useApp();
+  const { setDeposit, depositModalOpen, setDepositModalOpen, setStatus, balance, setBalance } = useApp();
   const wallet = useWallet();
   const { connection } = useConnection();
 
   const [error, setError] = useState<string | undefined>(undefined)
   const [paying, setPaying] = useState<boolean>(false)
-  const [balance, setBalance] = useState<number | undefined>(0)
 
   const modalClose = async () => {
     setDepositModalOpen(false)
@@ -106,6 +105,7 @@ export const ClaimModal = () => {
   const [claiming, setClaiming] = useState<boolean>(false)
   const { fetchData, setStatus, running, setPlaying, claimable, setClaimable, process, setProcess, claimModalOpen, setClaimModalOpen, setDeposit } = useApp();
   const wallet = useWallet();
+  const { connection } = useConnection();
 
   const handleClaim = async () => {
     if (wallet.publicKey) {
@@ -118,8 +118,8 @@ export const ClaimModal = () => {
         setClaimable(undefined)
         setProcess(false)
         setDeposit(false)
-        fetchData(wallet.publicKey.toString())
-        setStatus('desposit')
+        fetchData(wallet, connection)
+        setStatus('deposit')
       } catch (e) {
         setClaiming(false)
       }
@@ -134,7 +134,7 @@ export const ClaimModal = () => {
             <div className='flex justify-center items-center'>
               {claimable
                 ? (<span className='text-[#32209b] text-[30px] flex items-center'>Your prize : {claimable}<img src={SolSymbol} className='w-[40px]' /></span>)
-                : (<span className=''>No prize</span>)
+                : (<span className='flex flex-col items-center'><img src={Lose} className='w-[80px] '></img>No prize</span>)
               } </div>
             <div className='flex gap-[10px]'>
               <button className={!running && !process ? `bg-gray-600 hover:bg-gray-800 text-white hover:text-[#feffdb] p-[10px] rounded-md` : `bg-gray-900  text-gray-500  p-[10px] rounded-md cursor-not-allowed`} onClick={handleClaim} disabled={running || process}>{claimable ? 'Claim' : 'OK'}</button>

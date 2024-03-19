@@ -6,6 +6,9 @@ import {
   // useLayoutEffect,
 } from "react";
 import * as service from '@/service'
+import { WalletContextState } from "@solana/wallet-adapter-react";
+import { Connection } from "@solana/web3.js";
+import { getTokenBalance } from "@/utils/token";
 
 // import { useNavigate } from "react-router-dom";
 // import { userService } from "services";
@@ -46,8 +49,10 @@ export interface IApp {
   setReady: React.Dispatch<React.SetStateAction<boolean>>;
   status: string | undefined;
   setStatus: React.Dispatch<React.SetStateAction<string | undefined>>;
-  fetchData: (address: string) => Promise<void>
+  fetchData: (wallet: WalletContextState, conneciton: Connection) => Promise<void>
   initData: () => void
+  balance: undefined | number;
+  setBalance: React.Dispatch<React.SetStateAction<undefined | number>>;
 }
 
 export const AppContext = createContext<IApp>({
@@ -76,7 +81,9 @@ export const AppContext = createContext<IApp>({
   status: undefined,
   setStatus: () => { },
   fetchData: () => Promise.resolve(),
-  initData: () => { }
+  initData: () => { },
+  balance: undefined,
+  setBalance: () => { },
 });
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
@@ -91,18 +98,19 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [depositModalOpen, setDepositModalOpen] = useState<boolean>(false)
   const [claimModalOpen, setClaimModalOpen] = useState<boolean>(false)
   const [ready, setReady] = useState<boolean>(false)
-  // const [showDeposit, setShowDeposit] = useState<boolean>(false)
+  const [balance, setBalance] = useState<undefined | number>(undefined)
   const [status, setStatus] = useState<string | undefined>(undefined)
 
-  const fetchData = async (address: string): Promise<void> => {
+  const fetchData = async (wallet: WalletContextState, conneciton: Connection): Promise<void> => {
     try {
-      const res = await service.fetch({ address: address })
+      const res = await service.fetch({ address: wallet.publicKey?.toString()! })
       setDeposit(res.data.deposit)
       setPlaying(res.data.playing)
       setClaimable(res.data.claimable)
       setTotalDeposited(res.data.totalDeposit)
       setTotalClaimed(res.data.totalClaim)
       setProcess(res.data.process)
+      setBalance(await getTokenBalance(wallet, conneciton))
       if (!res.data.deposit && !res.data.playing) setStatus('deposit')
       if (res.data.deposit && !res.data.playing && !res.data.process) setStatus('spin')
       if (res.data.playing && res.data.process) setStatus('playing')
@@ -118,7 +126,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setTotalDeposited(undefined)
     setTotalClaimed(undefined)
     setProcess(false)
-    // setShowDeposit(false)
+    setBalance(undefined)
     setStatus(undefined)
   }
 
@@ -150,7 +158,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         fetchData,
         initData,
         status,
-        setStatus
+        setStatus,
+        balance,
+        setBalance
       }}
     >
       {children}

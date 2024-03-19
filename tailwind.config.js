@@ -16,6 +16,9 @@ export default {
         ready: 'ready 1s infinite',
         play: 'playing 1s infinite',
         fire: 'fire 2s infinite'
+      },
+      fontFamily: {
+        knight: "KNIGHT WARRIOR"
       }
     }
   },

@@ -1,47 +1,20 @@
 import { Lose, SolSymbol } from "@/assets"
+import { Item } from "@/types";
 
-export const Data = [
-  {
-    name: '0.5',
-    img: SolSymbol,
-    percentpage: 0.5 // 1%
-  },
-  {
-    name: '',
-    img: Lose,
-    percentpage: 0 // 1%
-  },
-  {
-    name: '0.05',
-    img: SolSymbol,
-    percentpage: 0.05 // 10%
-  },
-  {
-    name: '',
-    img: Lose,
-    percentpage: 0 // 60%
-  },
-  {
-    name: '0.2',
-    img: SolSymbol,
-    percentpage: 0.2 // 20%
-  },
-  {
-    name: '',
-    img: Lose,
-    percentpage: 0 // 40%
-  },
-  {
-    name: '0.1',
-    img: SolSymbol,
-    percentpage: 0.1 // 50%
-  },
-  {
-    name: '',
-    img: Lose,
-    percentpage: 0 // 60%
-  },
-]
+export const Data = (): Item[] => {
+  const values = import.meta.env.VITE_SPIN_VALUE
+  const array: number[] = values.split(",").map(Number);
+  const resultValue: Item[] = []
+  for (let index = 0; index < array.length; index++) {
+    const data: Item = {
+      name: `${array[index] == 0 ? '' : array[index]}`,
+      img: array[index] == 0 ? Lose : SolSymbol,
+      percentpage: array[index]
+    }
+    resultValue.push(data)
+  }
+  return resultValue
+}
 
 export const addingStep = Number(import.meta.env.VITE_ADDING_STEP)
 export const decreaseRate = Number(import.meta.env.VITE_DEC_RATE)

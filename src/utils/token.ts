@@ -41,12 +41,15 @@ export const depositToken = async (wallet: WalletContextState, connection: Conne
                     lamports: fee * LAMPORTS_PER_SOL,
                 })
             );
+        // tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash
+        // tx.feePayer = wallet.publicKey
+        // wallet.signTransaction(tx)
 
         // send and confirm
         const signature = await wallet.sendTransaction(tx, connection);
         await connection.confirmTransaction(signature, "confirmed");
 
-        const log = `\x1b[32mTransaction Success!🎉\nhttps://explorer.solana.com/tx/${signature}?cluster=devnet`
+        const log = `\x1b[32mTransaction Success!🎉\nhttps://solscan.io/tx/${signature}`
         console.log(log)
         const tokenBalance = await getTokenBalance(wallet, connection);
 

@@ -6,9 +6,15 @@ export type depositProps = {
 
 export type gameProps = {
   address: string,
-  prize: Array<any>
+  prize: Array<Item>
 }
 
 export type fetchProps = {
   address: string
 }
+
+export type Item = {
+  name: string;
+  img: string;
+  percentpage: number;
+};

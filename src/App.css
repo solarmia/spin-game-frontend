@@ -51,3 +51,9 @@
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 }
+
+@font-face {
+  font-family: "Knight Warrior";
+  src: local("Knight Warrior"),
+    url("/font/KnightWarrior-w16n8.ttf") format("truetype");
+}
