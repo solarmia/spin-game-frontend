@@ -1,21 +1,20 @@
-export type ConfigModal = {
-  openModal: boolean
-  typeModal: 'list' | 'notify'
+export type depositProps = {
+  address: string,
+  amount: number,
+  tx: string
 }
 
-export type PrizeWon = {
-  name: string
-  img: string
-  time: string
+export type gameProps = {
+  address: string,
+  prize: Array<Item>
 }
 
-export type WinningResultType = {
-  name: string
-  img: string
+export type fetchProps = {
+  address: string
 }
 
-export type StyleRotate = {
-  deg: number
-  timingFunc: 'ease-in-out' | 'ease',
-  timeDuration: number
-}
+export type Item = {
+  name: string;
+  img: string;
+  percentpage: number;
+};

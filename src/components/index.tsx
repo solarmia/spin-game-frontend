@@ -1,11 +1,9 @@
-import LuckyWheel from './lucky-wheel'
-import Modal from './modal'
-import WinningResult from './winning-result'
-import ListPrizeWon from './list-prize-won'
-
 import Banner from './banner'
 import Buttons from './buttons'
 import SpinWheel from './spin'
 import MarkPanel from './markpanel'
+import WalletContextProvider from './wallet-provider'
+import WalletButton from './wallet-multi-button'
+import {DepositModal, ClaimModal} from './modal'
 
-export { LuckyWheel, Modal, WinningResult, ListPrizeWon, Banner, Buttons, SpinWheel, MarkPanel }
+export { Banner, Buttons, SpinWheel, MarkPanel, WalletContextProvider, WalletButton, DepositModal,ClaimModal }

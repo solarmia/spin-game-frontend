@@ -5,6 +5,7 @@
 .icon-menu-list-prize-won {
   display: none;
 }
+
 @media screen and (max-width: 840px) {
   .menu-list-prize-won {
     display: none;
@@ -13,4 +14,46 @@
   .icon-menu-list-prize-won {
     display: block;
   }
+}
+
+@keyframes fire {
+  0%, 100% {
+    transform: rotate(-30deg);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  
+  50% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes ready {
+  0%, 100% {
+    transform: translateY(-3%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+
+  50% {
+    transform: translateY(3%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes playing {
+  0%, 100% {
+    transform: scale(105%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+
+  50% {
+    transform: scale(95%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@font-face {
+  font-family: "Knight Warrior";
+  src: local("Knight Warrior"),
+    url("/font/KnightWarrior-w16n8.ttf") format("truetype");
 }
